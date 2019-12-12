@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>按钮文字特效</title>
+    <style type="text/css">
+        .wrapper {
+            width: 300px;
+            height: 60px;
+            margin: 300px auto 0;
+            border: 1px solid black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .wrapper span {
+            margin-left: 10px;
+            font-weight: bold;
+            font-size: 24px;
+            color: blue;
+            line-height: 60px;
+            transition: all 0.5s;
+        }
+        
+        .wrapper span:nth-child(odd) {
+            transform: translateY(-100%);
+        }
+        
+        .wrapper span:nth-child(even) {
+            transform: translateY(100%);
+        }
+        
+        .wrapper span::before {
+            content: attr(data-text);
+            position: absolute;
+            color: red;
+        }
+        
+        .wrapper span:nth-child(odd)::before {
+            transform: translateY(100%);
+        }
+        
+        .wrapper span:nth-child(even)::before {
+            transform: translateY(-100%);
+        }
+        
+        .wrapper:hover span {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <span data-text="H">H</span>
+        <span data-text="E">E</span>
+        <span data-text="L">L</span>
+        <span data-text="L">L</span>
+        <span data-text="O">O</span>
+    </div>
+
+</body>
+
+</htm
