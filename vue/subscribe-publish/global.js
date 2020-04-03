@@ -60,7 +60,4 @@ window.onload = function () {
         Event.trigger("size", 33);
 
     }, 1000)
-
-
-
 }
