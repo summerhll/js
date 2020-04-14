@@ -1,0 +1,50 @@
+<!Doctype html>
+<html>
+    <head>
+        <title>localStorage cache</title>
+    </head>
+    <body>
+
+        <script>
+            /**
+             * 使用localStorage 存储localStorage缓存
+             * 
+             * 不能直接运行，需要本地启动服务器才可以有效果（跟vue一样）
+             */
+         
+            window.onload = function(){
+                let testContentStorage = localStorage.getItem("test");
+                if(testContentStorage){
+                    eval(testContentStorage)
+                }else{
+                    let httpReauest = new XMLHttpRequest();
+                    httpReauest.open("GET", "./test.js", true);
+                    httpReauest.send();
+                    httpReauest.onreadystatechange = callback;
+                    httpReauest.onprogress = progressCallback;
+                    
+                    function callback(){
+                        if(httpReauest.readyState == 4 && httpReauest.status =='200'){
+                            let responseText = httpReauest.responseText;
+                            eval(responseText);
+                            localStorage.setItem('test', responseText);
+                        }else{
+                            console.log("Request was failed: " + httpReauest.responseText)
+                        }
+
+                    }
+
+                    function progressCallback(e){
+                        e = e || event;
+                        if(e.lengthComputable){
+                            debugger  
+                            console.log("Received " + e.loaded + " of ")
+                        }
+                        
+                    }
+                }
+            }
+        </script>
+    </body>
+    
+</html>
