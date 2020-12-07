@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>css居中</title>
+    <style type="text/css">
+        body {
+            background: #f06d06;
+            font-size: 80%;
+        }
+
+        div {
+            background: white;
+            width: 240px;
+            height: 200px;
+            margin: 20px;
+            color: white;
+            resize: vertical;
+            overflow: auto;
+            padding: 20px;
+        }
+
+        .ghost-center {
+            position: relative;
+        }
+
+        .ghost-center::before {
+            content: " ";
+            display: inline-block;
+            height: 100%;
+            width: 1%;
+            vertical-align: middle;
+        }
+
+        .ghost-center p {
+            display: inline-block;
+            vertical-align: middle;
+            width: 190px;
+            margin: 0;
+            padding: 20px;
+            background: black;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <div class="ghost-center">
+            <p>I'm vertically centered multiple lines of text in a container. Centered with a ghost pseudo element</p>
+        </div>
+    </main>
+
+</body>
+
+</html>
