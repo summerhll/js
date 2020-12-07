@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>书本翻页特效-多页</title>
+    <style type="text/css">
+        .pg-book-wrapper {
+            width: 100%;
+            margin-top: 30px;
+            position: relative;
+            /*设置为3d视角*/
+            transform-style: preserve-3d;
+            transform-origin: left center;
+            margin-left: 500px;
+            animation: page 2s;
+        }
+        
+        img {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            /*必须有的属性，加上它第一张图片才可以显示在上面*/
+            background: #fff;
+        }
+        
+        img:nth-child(1) {
+            transform: translateZ(1px);
+        }
+        
+        .second-img {
+            /* 相当于绕y轴旋转180度 */
+            transform: scale(-1, 1);
+        }
+        
+        @keyframes page {
+            from {
+                transform: rotateY(0deg);
+            }
+            to {
+                transform: rotateY(360deg);
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="pg-book-wrapper">
+        <!-- <img class="first-img" src="https://static-zh.wxb.com.cn/karazhan/content/article/2020/1/16f8334cdef.jpg">
+        <img class="second-img" src="https://static-zh.wxb.com.cn/karazhan/content/article/2020/1/16f82fce679.jpg"> -->
+
+        <img class="first-img" src="http://img.souche.com/7174E386-9BAB-445B-8434-58ADAFDAC6D6.jpg">
+        <img class="second-img" src="http://img.souche.com/4ab2c536-0254-4421-bee7-94852502e763.jpg">
+    </div>
+</body>
+
+</html>
+
+
+<!---参考文章： https://juejin.im/post/5e1db9e55188252c3305245d
+-->
