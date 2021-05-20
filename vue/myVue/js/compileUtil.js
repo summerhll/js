@@ -1,14 +1,14 @@
 const compileUtil = {
     text(node, con, vm){
-        let value = 
+        let value = 11;
     },
-fajkhfhf    
-    updater : 
-        textUpdater(node, value){
-            node.textContent = value;
-        }
+   
+    // updater : 
+    //     textUpdater(node, value){
+    //         node.textContent = value;
+    //     }
 
-    },
+    // },
 
     getValue(key, vm){
         // return vm.$data[key]; //简易实现
