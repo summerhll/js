@@ -11,7 +11,15 @@
             <div>
                 <p>{{msg}} ---- {{info}}</p>
             </div>
+            <div>
+                <p v-text = "msg"></p>
+            </div>
+            <button v-on:click = "handleClick">点击事件on </button>
         </div>
+      
+        <script src = "js/observer.js"></script>
+        <script src = "js/dep.js"></script>
+        <script src = "js/watcher.js"></script>
         <script src = "js/compileUtil.js"></script>
         <script src = "js/compile.js"></script>
 
@@ -26,6 +34,11 @@
                         name : 'zs'
                     }
 
+                },
+                methods: {
+                    handleClick(){
+                        console.log("handleClick...")
+                    }
                 }
             })
         </script>

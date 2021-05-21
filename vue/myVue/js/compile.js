@@ -59,8 +59,8 @@ class ComPile {
         })
     }
 
-    //解析文档节点
-    compileText(node){
+    //解析文档节点 {{}}
+    compileText(node){ 
         const con = node.textContent;
         let reg = /\{\{(.+?)\}\}/g; //匹配文本节点
         if(reg.test(con)){
@@ -78,15 +78,36 @@ class ComPile {
        const attrs =  node.attributes;
        Array.from(attrs).forEach(attr => {
          const { name, value } = attr;
-         if(name.startsWith('v-')){
-             const [, b] = name.split('-'); //[v, model]
-             //console.log( b);
-             if(b === "model"){
-                 //key => value
-                 //obj => this.vm.$data
-                 node.value =  this.vm.$data[value]
-             }
+         if(this.isDirective(name)){ //是一个指令 v-text v-html v-model v-on:click
+             const [, directive] = name.split('-'); //[v, model]
+             const [dirName, eventName] = directive.split(":");// text html model on
+             //更新数据 数据驱动视图
+             compileUtil[dirName](node, value, this.vm, eventName);
+
+            //删除有指令的标签上的属性
+            node.removeAttribute("v-" + directive);
+
+
+            //  if(directive === "model"){
+            //      //key => value
+            //      //obj => this.vm.$data
+            //      node.value =  this.vm.$data[value]
+            //  }
+         }else if(this.isEventName(name)){ //@click = "handleClick"
+            let [, eventName ] = name.split('@');
+            compileUtil['on'](node, value, this.vm, eventName);
          }
        })
     }
+
+    //是否是指令
+    isDirective(attrName){
+        return attrName.startsWith('v-');
+    }
+    //是否是事件函数
+    isEventName(attrName){
+        return attrName.startsWith('@');
+
+    }
+
 }

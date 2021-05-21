@@ -1,5 +1,6 @@
 class MyVue {
     constructor(options){
+        this.$options = options;
         this.$data = options.data;
         this.$el = document.querySelector(options.el);
 
@@ -8,9 +9,12 @@ class MyVue {
 
         //2.数据劫持
 
+        new Observer( this.$data);
+
         //3.模版编译
         new ComPile(this);
-        
+        //数据代理
+       // this.proxyData();
         
        
 
