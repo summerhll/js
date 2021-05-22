@@ -36,7 +36,7 @@ class Observer{
                 return value;
             },
             set: (newVal) => {
-                this.observe(newVal);
+                //this.observe(newVal);
                 if(newVal !== value){
                     value = newVal;
                 }

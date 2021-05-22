@@ -7,20 +7,27 @@
     </head>
     <body>
         <div id = "app">
+            <h2>{{person.name}} -- {{person.age}}</h2>
+            <h3>{{person.fav}}</h3>
+            <ul>
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+            </ul>
+            <h3>{{msg}}</h3>
+            <div v-text = "person.age"></div>
+            <div v-text = "msg"></div> 
+            <div v-html = "htmlStr"></div> 
             <input type = "text" v-model = "msg">
-            <div>
-                <p>{{msg}} ---- {{info}}</p>
-            </div>
-            <div>
-                <p v-text = "msg"></p>
-            </div>
+           
             <button v-on:click = "handleClick">点击事件on </button>
+            <button @click = "handleClick">点击事件@ </button> 
         </div>
-      
+        <script src = "js/compileUtil.js"></script>
         <script src = "js/observer.js"></script>
         <script src = "js/dep.js"></script>
         <script src = "js/watcher.js"></script>
-        <script src = "js/compileUtil.js"></script>
+        
         <script src = "js/compile.js"></script>
 
         <script src = "js/myVue.js"></script>
@@ -31,9 +38,11 @@
                     msg : "hello",
                     info: "world",
                     person : {
-                        name : 'zs'
-                    }
-
+                        age: 18,
+                        name : '张三',
+                        fav:"美女"
+                    },
+                    htmlStr: "<h1>使用v-html 示例</h1>"
                 },
                 methods: {
                     handleClick(){

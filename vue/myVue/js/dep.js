@@ -10,7 +10,6 @@ class Dep {
 
     //通知观察者
     notify(){
-        console.log("通知了观察者..." + this.subs)
         this.subs.forEach(w => {w.update()});
     }
 }
