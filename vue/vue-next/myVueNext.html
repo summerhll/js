@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <meta charset = "UTF-8">
+        <meta name = "viewport" content = "width=device-width,initial-scale=1.0">
+        <title>myVueNext</title>
+    </head>
+    <body>
+        <div id = "app">   
+        </div>
+        <button id = "btn">click1</button>
+      
+        <script src = "myReactivity.js"></script>
+        <script>
+            //Vue3 reactivity原理示例
+           const root = document.getElementById("app");
+           const btn = document.getElementById("btn");
+
+           const o = {
+               name: "张三",
+               age: 1
+           }
+           let obj = reactive(o);
+           let double = computed(() => obj.age * 2);
+           effect(()=>{
+               root.innerHTML = `<h1>${obj.name}今年的年龄是${obj.age} 双倍是${double.value}</h1>`
+           });
+          
+           btn.addEventListener("click", ()=>{
+          
+               obj.age+=1;
+           })
+        </script>
+
+    </body>
+</html>
