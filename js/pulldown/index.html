@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上拉刷新下拉加载</title>
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        ul li {
+            list-style: none;
+        }
+
+        main p {
+            text-align: center;
+        }
+
+        .nav {
+            background-color: #2196F3;
+            color: #fff;
+            height: 35px;
+            text-align: center;
+            line-height: 35px;
+            margin: 0;
+            padding: 0;
+        }
+
+        #pullUpText,
+        #pullDownText {
+            color: #03a9f4
+        }
+    </style>
+    <script>
+    </script>
+</head>
+
+<body>
+
+    <header>
+        <p class="nav">上拉刷新下拉加载</p>
+    </header>
+    <main id="refreshContainer">
+        <p id="pullUpText"></p>
+        <ul id="refreshContent"></ul>
+        <p id="pullDownText">loading</p>
+    </main>
+
+
+
+    <script>
+        window.onload = function () {
+            function generateRandomDataArray(length) {
+                let array = []
+                for (let i = 0; i < length; i++) {
+                    let data = Math.random().toString().slice(2, 6)
+                    array.push(data)
+                }
+                return array;
+            }
+
+
+            let loadDataFunc = (function () {
+                let id = 0;
+                return function (length) {
+                    let array = []
+                    for (let i = 0; i < length; i++) {
+                        array.push(id++)
+                    }
+                    return array;
+                }
+            })()
+
+
+            // 获取当前滚动条的位置 
+            function getScrollTop() {
+                var scrollTop = 0;
+                if (document.documentElement && document.documentElement.scrollTop) {
+                    scrollTop = document.documentElement.scrollTop;
+                } else if (document.body) {
+                    scrollTop = document.body.scrollTop;
+                }
+                return scrollTop;
+            }
+
+            // 获取当前可视范围的高度 
+            function getClientHeight() {
+                var clientHeight = 0;
+                if (document.body.clientHeight && document.documentElement.clientHeight) {
+                    clientHeight = Math.min(document.body.clientHeight, document.documentElement.clientHeight);
+                } else {
+                    clientHeight = Math.max(document.body.clientHeight, document.documentElement.clientHeight);
+                }
+                return clientHeight;
+            }
+
+            // 获取文档完整的高度 
+            function getScrollHeight() {
+                return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+            }
+
+            //节流函数
+            function throttle(fn, delay = 300) {
+                var timer;
+                return function () {
+                    var _this = this;
+                    var args = arguments;
+                    if (timer) {
+                        return;
+                    }
+                    timer = setTimeout(function () {
+                        fn.apply(_this, args);
+                        timer = null; // 在delay后执行完fn之后清空timer，此时timer为假，throttle触发可以进入计时器
+                    }, delay)
+                }
+            }
+
+            // 把数据转成HTML标签
+            function dataToDocumentFragment(data) {
+                let fragment = document.createDocumentFragment()
+                data.forEach(d => {
+                    let li = document.createElement('li')
+                    li.textContent = d;
+                    fragment.appendChild(li)
+                })
+                return fragment;
+            }
+
+            var refreshContent = document.getElementById('refreshContent')
+            var pullDownText = document.getElementById('pullDownText')
+
+
+            // 下拉刷新执行的函数
+            function refresh() {
+                let initData = generateRandomDataArray(50)
+                let fragment = dataToDocumentFragment(initData)
+                refreshContent.innerHTML = ''
+                refreshContent.appendChild(fragment)
+            }
+
+            // 上拉加载执行的函数
+            function pullUpLoad() {
+                let loadData = loadDataFunc(10)
+                if (loadData.length === 0) {
+                    pullDownText.textContent = '没有更多数据'
+                    return;
+                }
+                let fragment = dataToDocumentFragment(loadData)
+                refreshContent.appendChild(fragment)
+            }
+
+            refresh(); //初始化
+
+
+            /**
+             * 上拉加载
+             */
+
+            var preloadDistance = 100; // 提前多少个像素点开始加载
+            var pullUpTextEle = document.getElementById('pullDownText');
+        
+            // 模拟获取数据
+            function fetchData() {
+                setTimeout(function () {
+                    pullUpLoad()
+                }, 1000);
+            }
+
+            window.onscroll = function () {
+                if (getScrollHeight() - (getScrollTop() + getClientHeight()) < preloadDistance) {
+                    let throttleFn = throttle(fetchData, 300);
+                    throttleFn();
+                }
+            };
+
+
+            /**
+             * 下拉刷新
+             */
+            var min_move_distance = 30; // 最小移动距离, 如果移动距离小于这个值就取消加载
+            var showPullUpTextDistance = 10
+            var max_move_distance = 50
+            
+         //  var refreshContainerEle = document.getElementById('refreshContainer');
+            var refreshContainerEle = document.getElementById('refreshContent'),
+                pullUpTextEle = document.getElementById('pullUpText'),
+                startPos = 0,
+                transitionHeight = 0;
+
+            refreshContainerEle.addEventListener('touchstart', function (e) {
+                // console.log('初始位置：', e.touches[0].pageY);
+                startPos = e.touches[0].pageY;
+                refreshContainerEle.style.position = 'relative';
+                refreshContainerEle.style.transition = 'transform 0s';
+            }, false);
+
+            refreshContainerEle.addEventListener('touchmove', function (e) {
+                // console.log('当前位置：', e.touches[0].pageY);
+                transitionHeight = e.touches[0].pageY - startPos;
+
+                if (transitionHeight > showPullUpTextDistance && transitionHeight < max_move_distance) {
+
+                    pullUpTextEle.innerText = '下拉刷新';
+
+                    if (transitionHeight > min_move_distance) {
+                        pullUpTextEle.innerText = '释放立即更新';
+                    }
+
+                    refreshContainerEle.style.transform = 'translateY(' + transitionHeight + 'px)';
+                    pullUpTextEle.style.lineHeight = transitionHeight + 'px';
+                }
+            }, false);
+
+            refreshContainerEle.addEventListener('touchend', function (e) {
+                refreshContainerEle.style.transition = 'transform 0.5s linear 0.3s';
+                refreshContainerEle.style.transform = 'translateY(0px)';
+
+                setTimeout(() => {
+                    pullUpTextEle.style.lineHeight = "normal";
+                }, 800)
+
+                if (transitionHeight > min_move_distance) {
+                    pullUpTextEle.innerText = '更新中...';
+
+                    // 更新完成
+                    setTimeout(() => {
+                        refresh()
+                        pullUpTextEle.innerText = '';
+                    }, 1000)
+                } else {
+                    pullUpTextEle.innerText = '' // 取消更新;
+                }
+
+            }, false);
+
+        }
+    </script>
+
+
+
+</body>
+
+</html>
