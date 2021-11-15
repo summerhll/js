@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>轮播</title>
+     <link rel="stylesheet" href="./demo.css">
+</head>
+
+<body>
+   
+
+    <div class="banner_container">
+        <!-- 6张图片 -->
+        <ul class="img_box">
+            <li><img src="4.jpeg" alt=""></li>
+            <li><img src="1.jpeg" alt=""></li>
+            <li><img src="2.jpeg" alt=""></li>
+            <li><img src="3.jpeg" alt=""></li>
+            <li><img src="4.jpeg" alt=""></li>
+            <li><img src="1.jpeg" alt=""></li>
+        </ul>
+
+        <!-- 中间圆点 -->
+        <ul class="sel_box">
+            <!-- 自定义属性 -->
+            <li data-index="0"></li>
+            <li data-index="1"></li>
+            <li data-index="2"></li>
+            <li data-index="3"></li>
+        </ul>
+
+        <!-- 左箭头 -->
+        <div class="left_btn">&lt;</div>
+        <!-- 右箭头 -->
+        <div class="right_btn">&gt;</div>
+    </div>
+
+    <!-- 引入js代码 -->
+    <script src="./demo.js"></script>
+</body>
+
+</html>
