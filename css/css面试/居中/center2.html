@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>屏幕水平垂直居中</title>
+    <style>
+        .outer {
+            display: table;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+        }
+
+        .middle {
+            display: table-cell;
+            vertical-align: middle;
+        }
+       
+        .inner {
+            margin: 0 auto;
+            background: #2b2b2b;
+            color: #fff;
+            padding: 2rem;
+            max-width: 320px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="outer">
+        <div class="middle">
+            <div class="inner">
+                <p>
+                   水平垂直居中
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

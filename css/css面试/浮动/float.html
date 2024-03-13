@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>浮动效果显示页面</title>
+    <style>
+        .containar { 
+            width: 800px;
+           /** height: 500px; **/
+            border: 1px solid #CCC;
+            font-size: 16px;
+         
+            margin: 20px 0;
+            color: white;
+           
+        }
+
+        /** 使用.containar::after 才有效果， 使用.containar::before 没效果 */
+        .containar::after{
+            content: "";
+            display: block;
+            clear: both;  /* 清除浮动*/
+        }
+
+        .red{
+            background-color: rgb(178, 122, 19);
+            width:80px;
+            height: 150px;
+            float:left;
+        }
+        .blue{
+            background-color: blue;
+            height: 50px;
+            /** height: 250px;  **/  /* 另一种效果*/
+            width:680px;
+            float:left;
+        }
+
+        .blue2{
+            background-color: blue;
+            height: 50px;
+            width: 50px;    
+        }
+
+       
+        .yellow{
+            background-color: rgb(204, 15, 132);
+            height: 150px;
+            width:100px;
+            float:left;
+        }
+        .black{
+            background-color: black;
+            height: 250px;
+            width:50px;
+            float:left;
+        }
+
+        .pink{
+            background-color: pink;
+            height: 50px;
+            width: 1150px;
+            float:left;
+        }
+
+        
+
+       
+    </style>
+</head>
+
+<body>
+    <div class = "containar">
+        <div class = "red">item1</div>
+        <div class = "blue">item2</div>
+        <div class = "yellow">item3</div>
+        <div class = "black">item4</div>
+       
+        <!---元素宽度超过父元素的情况-->
+        <!--
+            <div class = "pink">item5</div>
+        -->
+
+       
+    </div>
+
+    <div class = "containar" style = "color: black;">
+        <div class = "red">item5</div>
+        <div class = "blue2">item6</div>
+        <span>测试数据测试测试测试数据测试测试大厦大厦大厦大厦大厦大厦大厦大厦测试数测试数据测试数据测试测试测试数据测试测试大厦大厦大厦大厦大厦大厦大厦大厦测试数测试测试测试数据测试测试大厦大厦大厦大厦大厦大厦大厦大厦测试数据测试测试测测试数据测试测试测试数据测试测试大厦大厦大厦大厦大厦大厦大厦大厦试数据测试测试大厦大厦大厦大厦大厦大厦大厦大厦</span>
+
+        <!--item6 不是浮动元素，item7会紧随item5浮动，但是item7在垂直方向上，会在item6的下方显示-->
+        <div class = "yellow">item7</div>
+       
+    </div>
+   
+</body>
+
+</html>

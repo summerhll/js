@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang = "zh-CN">
+  <body>
+    <head>
+      <title>观察者模式示例</title>
+    </head>
+    <main>
+      <button id = "ageChangeBtn">修改年龄</button>
+
+    </main>
+    <script>
+      window.onload = function(){
+        let watchArray = [];
+        let observe = function(fn){
+          watchArray.push(fn);
+
+        }
+
+        //观察者模式 用proxy实现
+        let handler = {
+          set(target, key, value, receiver){
+            let result = Reflect.set(target, key, value, receiver);
+            watchArray.forEach(item => item());
+            return result;
+
+          }
+        }
+        // let observerable = function(obj){
+        //   return new Proxy(obj, handler)
+        // }
+        
+        const observerable = obj => new Proxy(obj, handler);
+
+
+        //待观察的目标对象：people
+        let people = observerable({
+          name: "张三",
+          age: 11
+         })
+
+         function print(){
+          console.log(`${people.name}的年龄是 ${people.age}`)
+         }
+
+         document.getElementById("ageChangeBtn").onclick = function(){
+           people.age++;
+         }
+
+         //添加观察者与目标对象之间的依赖关系
+         observe(print);
+         people.age = 12;
+      }
+    </script>
+
+  </body>
+</html>
+

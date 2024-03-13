@@ -62,7 +62,7 @@ window.onload = function () {
     }
 
     // 添加定时器，调用函数
-    timer = setInterval(swapFormat, 3000)
+   // timer = setInterval(swapFormat, 3000)
     // 点击右箭头，图片移动方式与自动播放一样
     right_btn.addEventListener('click', function () {
         swapFormat();

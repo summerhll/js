@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang = "zh-CN">
+    <head>
+       <title>proxy测试页面</title>
+       <style>
+
+       </style>
+       
+    </head>
+    <body>
+        <main>
+            <div>
+                <input type = "text" id = "nameInput" />
+            </div>
+            <div id = "nameDiv"></div>
+
+        </main>
+
+        <script>
+           window.onload = function(){
+                let p = { name : "测试"};
+            
+                    
+                
+                console.log("原来的p是： " + JSON.stringify(p));
+                let handler = {
+                    set(target, key, value, receiver){
+                        console.log("set 代理...");
+                        Reflect.set(target, key, value, receiver);
+                    },
+                    defineProperty(target, key, attributes){
+                        console.log("defineProperty....");
+                        Reflect.defineProperty(target, key, attributes);
+                        
+                    }
+
+                }
+
+               
+                let proxy = new Proxy(p, handler);
+               
+                proxy.name = "A"; //测试劫持
+              
+               
+
+            }
+        </script>
+       
+    </body>
+</html>
